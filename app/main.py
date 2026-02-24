@@ -28,7 +28,7 @@ def brute_force_password() -> None:
     results = []
     with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
         for result in pool.imap_unordered(
-                sha256_hash_str, range(10000000), chunksize=50000
+                sha256_hash_str, range(100000000), chunksize=50000
         ):
             if result:
                 results.append(result)
