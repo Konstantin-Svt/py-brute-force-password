@@ -17,17 +17,18 @@ PASSWORDS_TO_BRUTE_FORCE = [
 
 
 def sha256_hash_str(to_hash: int) -> str | None:
-    res = sha256("{:08d}".format(to_hash).encode("utf-8")).hexdigest()
+    string = "{:08d}".format(to_hash)
+    res = sha256(string.encode("utf-8")).hexdigest()
     if res in PASSWORDS_TO_BRUTE_FORCE:
-        return str(to_hash)
+        return string
     return None
 
 
 def brute_force_password() -> None:
     results = []
-    with multiprocessing.Pool(multiprocessing.cpu_count() - 1) as pool:
+    with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
         for result in pool.imap_unordered(
-                sha256_hash_str, range(100000000), chunksize=50000
+                sha256_hash_str, range(10000000), chunksize=50000
         ):
             if result:
                 results.append(result)
